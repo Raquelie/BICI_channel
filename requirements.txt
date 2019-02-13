@@ -1,0 +1,5 @@
+pyTelegramBotAPI
+bs4
+lxml
+request
+schedule
