@@ -50,12 +50,12 @@ def get_new_links():
 def save_links(new_links):
     with open("urls.txt", 'w') as f:
         for l in new_links:
-            f.write(l)
+            f.write(l+'\n')
 
 
 def broadcast(text):
-    bot = telebot.TeleBot("776127325:AAGZU2avlLoicVcK8QF2i7MXRYoElPM5Pwk")
-    bot.send_message(-1001452535069, text)
+    bot = telebot.TeleBot(TOKEN)
+    #bot.send_message(-1001452535069, text)
 
 
 def job():
