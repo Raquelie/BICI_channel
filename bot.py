@@ -17,13 +17,13 @@ def get_channel_text(link):
     text=''
     for row in soup.find_all('p',  class_=class_list):
          if row.get("class") == ['CABEZERA']:
-              for link in row.find_all('a', href=True):
-                 if link.string:
-                     text=text+link.string.upper()+'\n'
+              for li in row.find_all('a', href=True):
+                 if li.string:
+                     text=text+li.string.upper()+'\n'
          if row.get("class") == ['textosumario']:
-              for link in row.find_all('a', href=True):
-                 if link.string:
-                    text=text+link.string+'\n'
+              for li in row.find_all('a', href=True):
+                 if li.string:
+                    text=text+li.string+'\n'
     return text+'\n'+str(link)
 
 
@@ -48,14 +48,14 @@ def get_new_links():
 
 
 def save_links(new_links):
-    with open("urls.txt", 'w') as f:
+    with open("urls.txt", 'a') as f:
         for l in new_links:
             f.write(l+'\n')
 
 
 def broadcast(text):
     bot = telebot.TeleBot(TOKEN)
-    #bot.send_message(-1001452535069, text)
+    bot.send_message(-1001452535069, text)
 
 
 def job():
@@ -66,7 +66,7 @@ def job():
     save_links(links)
 
 def main():
-    schedule.every(1).minutes.do(job)
+    schedule.every(1).days.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
