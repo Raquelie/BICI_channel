@@ -12,7 +12,7 @@ def get_channel_text(link):
 
     data = r.text
     class_list = ["CABEZERA", "textosumario"]
-    soup = BeautifulSoup(data)
+    soup = BeautifulSoup(data, 'html.parser')
 
     text=''
     for row in soup.find_all('p',  class_=class_list):
@@ -45,7 +45,7 @@ def get_new_links():
     url = "portal.uned.es/portal/page?_pageid=93,64811283&_dad=portal&_schema=PORTAL"
     r = requests.get("http://" + url)
     data = r.text
-    soup = BeautifulSoup(data)
+    soup = BeautifulSoup(data, 'html.parser')
 
     new_links=[]
     for row in soup.find_all('a'):
