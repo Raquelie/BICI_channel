@@ -4,7 +4,7 @@ import re
 import telebot
 import schedule
 import time
-
+import argparse
 
 def get_channel_text(link):
 
@@ -24,7 +24,17 @@ def get_channel_text(link):
               for li in row.find_all('a', href=True):
                  if li.string:
                     text=text+li.string+'\n'
-    return text+'\n'+str(link)
+    date=''
+    for row in soup.find_all('p'):
+        for row2 in row.find_all('b'):
+            row3 = row2.find_all('span')[0]
+            if row3.text:
+                v = row3.text
+                i = v.find('/')
+                date1 = v[i - 2:i + 8]
+                date=date+date1
+
+    return str(date)+'\n\n'+text+'\n'+str(link)
 
 
 def get_new_links():
@@ -53,20 +63,25 @@ def save_links(new_links):
             f.write(l+'\n')
 
 
-def broadcast(text):
-    bot = telebot.TeleBot(TOKEN)
+def broadcast(text, token):
+    bot = telebot.TeleBot(token)
     bot.send_message(-1001452535069, text)
 
 
-def job():
+def job(token):
     links = get_new_links()
     for l in links:
         t = get_channel_text(l)
-        broadcast(t)
+        broadcast(t, token)
     save_links(links)
 
 def main():
-    schedule.every(1).days.do(job)
+    parser = argparse.ArgumentParser(description='Telegram token')
+    parser.add_argument('token', type=str,
+                        help='token')
+    args = parser.parse_args()
+    schedule.every().monday.at("15:15").do(job, token=args.token)
+    #schedule.every().minute.do(job, token=args.token)
     while True:
         schedule.run_pending()
         time.sleep(1)
