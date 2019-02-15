@@ -80,7 +80,7 @@ def main():
     parser.add_argument('token', type=str,
                         help='token')
     args = parser.parse_args()
-    schedule.every().monday.at("15:15").do(job, token=args.token)
+    schedule.every().day.at("15:15").do(job, token=args.token)
     #schedule.every().minute.do(job, token=args.token)
     while True:
         schedule.run_pending()
