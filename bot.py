@@ -7,7 +7,8 @@ import time
 import argparse
 
 def get_channel_text(link):
-
+    
+    #Create scrapper
     r  = requests.get(link)
 
     data = r.text
@@ -38,7 +39,7 @@ def get_channel_text(link):
 
 
 def get_new_links():
-    with open("urls.txt", 'w+') as f:
+    with open("urls.txt", 'a') as f:
         content = f.readlines()
         read_urls = [x.strip() for x in content]
 
@@ -58,7 +59,7 @@ def get_new_links():
 
 
 def save_links(new_links):
-    with open("urls.txt", 'a') as f:
+    with open("urls.txt", 'a+') as f:
         for l in new_links:
             f.write(l+'\n')
 
