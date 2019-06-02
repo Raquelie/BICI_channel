@@ -40,6 +40,7 @@ def get_channel_text(link):
 
 def get_new_links():
     with open("urls.txt", 'a+') as f:
+        f.seek(0)
         content = f.readlines()
         read_urls = [x.strip() for x in content]
 
@@ -59,7 +60,7 @@ def get_new_links():
 
 
 def save_links(new_links):
-    with open("urls.txt", 'a+') as f:
+    with open("urls.txt", 'a') as f:
         for l in new_links:
             f.write(l+'\n')
 
