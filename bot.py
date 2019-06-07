@@ -62,7 +62,7 @@ def get_new_links():
 
 
 def save_links(new_links):
-    with open("urls.txt", 'a') as f:
+    with open("/DATA/urls.txt", 'a') as f:
         for l in new_links:
             f.write(l+'\n')
 
