@@ -5,6 +5,7 @@ import telebot
 import schedule
 import time
 import argparse
+import os
 
 def get_channel_text(link):
     
@@ -28,18 +29,19 @@ def get_channel_text(link):
     date=''
     for row in soup.find_all('p'):
         for row2 in row.find_all('b'):
-            row3 = row2.find_all('span')[0]
-            if row3.text:
-                v = row3.text
-                i = v.find('/')
-                date1 = v[i - 2:i + 8]
-                date=date+date1
+            row3 = row2.find_all('span')
+            if len(row3) != 0:
+                if row3[0].text:
+                    v = row3[0].text
+                    i = v.find('/')
+                    date1 = v[i - 2:i + 8]
+                    date=date+date1
 
     return str(date)+'\n\n'+text+'\n'+str(link)
 
 
 def get_new_links():
-    with open("urls.txt", 'a+') as f:
+    with open("/DATA/urls.txt", 'a+') as f:
         f.seek(0)
         content = f.readlines()
         read_urls = [x.strip() for x in content]
@@ -74,7 +76,7 @@ def job(token):
     links = get_new_links()
     for l in links:
         t = get_channel_text(l)
-        broadcast(t, token)
+        #broadcast(t, token)
     save_links(links)
 
 def main():
@@ -83,7 +85,7 @@ def main():
                         help='token')
     args = parser.parse_args()
     schedule.every().day.at("15:15").do(job, token=args.token)
-    #schedule.every().minute.do(job, token=args.token)
+    # schedule.every().minute.do(job, token=args.token)
     while True:
         schedule.run_pending()
         time.sleep(1)
