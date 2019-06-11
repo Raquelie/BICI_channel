@@ -76,7 +76,7 @@ def job(token):
     links = get_new_links()
     for l in links:
         t = get_channel_text(l)
-        #broadcast(t, token)
+        broadcast(t, token)
     save_links(links)
 
 def main():
